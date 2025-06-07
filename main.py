@@ -92,8 +92,12 @@ class Wallnut(Plant):
     def __init__(self, x, y):
         super().__init__(x, y, 610)
         self.color = (240, 148, 9)
+        self.max_health = 610
     def draw(self):
-        pygame.draw.rect(screen, (240, 148, 9) , self.rect)
+        per_hp = self.health / self.max_health
+        shift_y = int(self.rect.height * (1 - per_hp))
+        height = int(self.rect.height * per_hp)
+        pygame.draw.rect(screen, (240, 148, 9) , (self.rect.x, self.rect.y + shift_y, self.rect.width, height))
 
 class Pea:
     def __init__(self, x, y):
