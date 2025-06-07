@@ -262,6 +262,9 @@ while running:
                         plants.append(Wallnut(plant_x, plant_y))
                         sun_count -= 50
                         selected_plant = None
+                    elif selected_plant == 'Shovel':
+                        sun_count -= 50
+                        selected_plant = None
 
     # Обновление объектов
     for plant in plants[:]:
@@ -316,6 +319,11 @@ while running:
 
     pygame.draw.rect(screen, BROWN, (130, 10, 50, 50))  # Орех
     pygame.draw.rect(screen, (240, 148, 9), (135, 15, 40, 40))
+    text = font.render("50", True, WHITE)
+    screen.blit(text, (130, 65))
+
+    pygame.draw.rect(screen, BROWN, (540, 10, 50, 50))  # Лопата
+    pygame.draw.rect(screen, (240, 148, 9), (545, 15, 40, 40))
     text = font.render("50", True, WHITE)
     screen.blit(text, (130, 65))
 
