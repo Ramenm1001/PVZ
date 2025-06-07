@@ -88,6 +88,10 @@ class Sunflower(Plant):
             suns.append(Sun(self.x + GRID_SIZE // 2 - 15, self.y))
             self.cooldown = 300  # 5 секунд при 60 FPS
 
+class Wallnut(Plant):
+    def __init__(self, x, y):
+        super().__init__(x, y, 200)
+        self.color = (240, 148, 9)
 
 class Pea:
     def __init__(self, x, y):
@@ -122,7 +126,7 @@ class Zombie:
     def __init__(self, row):
         self.x = SCREEN_WIDTH
         self.y = LAWN_TOP + row * GRID_SIZE
-        self.speed = 1
+        self.speed = 0.6
         self.health = 100
         self.row = row
         self.rect = pygame.Rect(self.x, self.y, GRID_SIZE, GRID_SIZE)
@@ -212,6 +216,10 @@ while running:
             elif 70 <= mouse_x <= 120 and 10 <= mouse_y <= 60 and sun_count >= 50:
                 selected_plant = 'sunflower'
 
+            #выбор ореха (стоит 50 солнц)
+            elif 130 <= mouse_x <= 180 and 10 <= mouse_y <= 60 and sun_count >= 50:
+                selected_plant = 'wallnut'
+
             # Размещение растения на поле
             elif LAWN_LEFT <= mouse_x <= LAWN_LEFT + GRID_WIDTH * GRID_SIZE and \
                     LAWN_TOP <= mouse_y <= LAWN_TOP + GRID_HEIGHT * GRID_SIZE:
@@ -234,6 +242,10 @@ while running:
                         selected_plant = None
                     elif selected_plant == 'sunflower' and sun_count >= 50:
                         plants.append(Sunflower(plant_x, plant_y))
+                        sun_count -= 50
+                        selected_plant = None
+                    elif selected_plant == 'wallnut' and sun_count >= 50:
+                        plants.append(Wallnut(plant_x, plant_y))
                         sun_count -= 50
                         selected_plant = None
 
@@ -286,6 +298,11 @@ while running:
     text = font.render("50", True, WHITE)
     screen.blit(text, (70, 65))
 
+    pygame.draw.rect(screen, BROWN, (130, 10, 50, 50))  # Орех
+    pygame.draw.rect(screen, (240, 148, 9), (135, 15, 40, 40))
+    text = font.render("50", True, WHITE)
+    screen.blit(text, (130, 65))
+
     # Рисуем счетчик солнца
     pygame.draw.rect(screen, YELLOW, (SCREEN_WIDTH - 100, 10, 80, 30))
     text = font.render(f"{sun_count}", True, BLACK)
@@ -314,6 +331,9 @@ while running:
             pygame.draw.rect(screen, (0, 200, 0, 150),
                              (mouse_x - GRID_SIZE // 2, mouse_y - GRID_SIZE // 2, GRID_SIZE, GRID_SIZE))
         elif selected_plant == 'sunflower':
+            pygame.draw.rect(screen, (200, 200, 0, 150),
+                             (mouse_x - GRID_SIZE // 2, mouse_y - GRID_SIZE // 2, GRID_SIZE, GRID_SIZE))
+        elif selected_plant == 'wallnut':
             pygame.draw.rect(screen, (200, 200, 0, 150),
                              (mouse_x - GRID_SIZE // 2, mouse_y - GRID_SIZE // 2, GRID_SIZE, GRID_SIZE))
 
