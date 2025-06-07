@@ -90,7 +90,7 @@ class Sunflower(Plant):
 
 class Wallnut(Plant):
     def __init__(self, x, y):
-        super().__init__(x, y, 610)
+        super().__init__(x, y, 600)
         self.color = (240, 148, 9)
 
 class Pea:
