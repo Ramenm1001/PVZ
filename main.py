@@ -92,6 +92,8 @@ class Wallnut(Plant):
     def __init__(self, x, y):
         super().__init__(x, y, 610)
         self.color = (240, 148, 9)
+    def draw(self):
+        pygame.draw.rect(screen, (240, 148, 9) , self.rect)
 
 class Pea:
     def __init__(self, x, y):
