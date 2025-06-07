@@ -32,10 +32,10 @@ clock = pygame.time.Clock()
 
 # Классы
 class Plant:
-    def __init__(self, x, y):
+    def __init__(self, x, y, health=100):
         self.x = x
         self.y = y
-        self.health = 100
+        self.health = health
         self.rect = pygame.Rect(x, y, GRID_SIZE, GRID_SIZE)
 
     def draw(self):
@@ -123,11 +123,11 @@ class Pea:
 
 
 class Zombie:
-    def __init__(self, row):
+    def __init__(self, row, health=100):
         self.x = SCREEN_WIDTH
         self.y = LAWN_TOP + row * GRID_SIZE
         self.speed = 0.6
-        self.health = 100
+        self.health = health
         self.row = row
         self.rect = pygame.Rect(self.x, self.y, GRID_SIZE, GRID_SIZE)
 
@@ -159,6 +159,14 @@ class Zombie:
             sys.exit()
 
 
+class ConeZombie(Zombie):
+    def __init__(self, row):
+        super().__init__(row, 125)
+
+    def draw(self):
+        super().draw()
+        pygame.draw.rect(screen, (250, 150, 75), (self.rect.x + GRID_SIZE // 4, self.rect.y,
+                                                  GRID_SIZE // 2, GRID_SIZE // 2))
 
 
 class Sun:
@@ -269,7 +277,7 @@ while running:
     zombie_spawn_timer += 1
     if zombie_spawn_timer >= 300:  # Каждые 5 секунд
         row = random.randint(0, GRID_HEIGHT - 1)
-        zombies.append(Zombie(row))
+        zombies.append(ConeZombie(row))
         zombie_spawn_timer = 0
 
     # Спавн солнца с неба
@@ -287,6 +295,8 @@ while running:
             pygame.draw.rect(screen, (50, 50, 50), rect, 1)
 
     # Рисуем панель выбора растений
+    font = pygame.font.SysFont(None, 20)
+
     pygame.draw.rect(screen, BROWN, (10, 10, 50, 50))  # Горох
     pygame.draw.rect(screen, GREEN, (15, 15, 40, 40))
     font = pygame.font.SysFont(None, 20)
