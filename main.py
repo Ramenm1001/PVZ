@@ -32,10 +32,10 @@ clock = pygame.time.Clock()
 
 # Классы
 class Plant:
-    def __init__(self, x, y):
+    def __init__(self, x, y, health=100):
         self.x = x
         self.y = y
-        self.health = 100
+        self.health = health
         self.rect = pygame.Rect(x, y, GRID_SIZE, GRID_SIZE)
 
     def draw(self):
