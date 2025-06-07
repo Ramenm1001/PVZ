@@ -134,9 +134,9 @@ class Zombie:
         pygame.draw.rect(screen, (0, 255, 0), (self.x, self.y - 10, GRID_SIZE * (self.health / 100), 5))
 
     def update(self):
-        self.x -= self.speed
-        self.rect.x = self.x
-
+        # Удаляем зомби, если его здоровье закончилось
+        if self.health <= 0:
+            zombies.remove(self)
         # Проверяем столкновение с растениями
         for plant in plants:
             if self.rect.colliderect(plant.rect) and self.y == plant.y:
@@ -145,15 +145,16 @@ class Zombie:
                     plants.remove(plant)
                 return
 
+        self.x -= self.speed
+        self.rect.x = self.x
+
         # Удаляем зомби, если он дошел до конца
         if self.x < 0:
             print("Game Over!")
             pygame.quit()
             sys.exit()
 
-        # Удаляем зомби, если его здоровье закончилось
-        if self.health <= 0:
-            zombies.remove(self)
+
 
 
 class Sun:
@@ -189,7 +190,7 @@ suns = []
 # Игровые переменные
 sun_count = 50
 selected_plant = None  # 'peashooter' или 'sunflower'
-zombie_spawn_timer = 0
+zombie_spawn_timer = -300
 
 # Основной игровой цикл
 running = True
